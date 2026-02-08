@@ -1,0 +1,59 @@
+name: Test Formula
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-formula:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, macos-13]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Validate formula syntax
+        run: |
+          ruby -c git-native-issue.rb || exit 1
+          echo "✓ Ruby syntax valid"
+      
+      - name: Test formula installation
+        run: |
+          # Install from local formula
+          brew install --formula ./git-native-issue.rb
+          
+          # Verify installation
+          which git-issue || exit 1
+          git-issue version || exit 1
+          
+          echo "✓ Formula installs successfully"
+      
+      - name: Test basic functionality
+        run: |
+          # Create test repo
+          mkdir -p /tmp/test-repo
+          cd /tmp/test-repo
+          git init
+          git config user.name "Test"
+          git config user.email "test@example.com"
+          git remote add origin https://example.com/test.git
+          
+          # Test commands
+          git-issue init || exit 1
+          git-issue create "Test issue" || exit 1
+          git-issue ls || exit 1
+          
+          echo "✓ Basic commands work"
+      
+      - name: Cleanup
+        if: always()
+        run: |
+          brew uninstall git-native-issue 2>/dev/null || true
