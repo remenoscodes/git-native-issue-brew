@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, macos-13]
+        os: [macos-latest]
     
     steps:
       - name: Checkout
@@ -27,13 +27,17 @@ jobs:
       
       - name: Test formula installation
         run: |
-          # Install from local formula
-          brew install --formula ./git-native-issue.rb
-          
+          # Create a local tap for testing
+          mkdir -p "$(brew --repository)/Library/Taps/remenoscodes/homebrew-git-native-issue"
+          cp git-native-issue.rb "$(brew --repository)/Library/Taps/remenoscodes/homebrew-git-native-issue/"
+
+          # Install from local tap
+          brew install remenoscodes/git-native-issue/git-native-issue
+
           # Verify installation
           which git-issue || exit 1
           git-issue version || exit 1
-          
+
           echo "✓ Formula installs successfully"
       
       - name: Test basic functionality
