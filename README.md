@@ -289,4 +289,3 @@ Formula updates are automated, but if you find issues:
 ---
 
 **Maintained by:** [Emerson Soares](https://github.com/remenoscodes)
-**Built with:** ❤️ and [Claude Code](https://claude.com/claude-code)
