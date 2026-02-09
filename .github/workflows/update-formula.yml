@@ -30,6 +30,9 @@ jobs:
           sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" git-native-issue.rb
           sed -i "s|version \".*\"|version \"$VERSION\"|g" git-native-issue.rb
 
+          # Update test assertion to match version
+          sed -i "s|assert_match \".*\", shell_output|assert_match \"$VERSION\", shell_output|g" git-native-issue.rb
+
           # Verify changes
           if git diff --quiet git-native-issue.rb; then
             echo "⚠️  No changes detected - formula already up to date"
