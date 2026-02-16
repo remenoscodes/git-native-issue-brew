@@ -1,10 +1,10 @@
 class GitNativeIssue < Formula
   desc "Distributed issue tracking using Git's native data model"
   homepage "https://github.com/remenoscodes/git-native-issue"
-  url "https://github.com/remenoscodes/git-native-issue/releases/download/v1.3.2/git-native-issue-v1.3.2.tar.gz"
-  sha256 "40b1cb3f92c457452e201e23e7327d53896bba1c09da8519467c7f402f35075e"
+  url "https://github.com/remenoscodes/git-native-issue/releases/download/v1.3.3/git-native-issue-v1.3.3.tar.gz"
+  sha256 "b4fb6f48e7aff280c624e93741f0337c3cdc8011fde37769602609a7aa7c9bf5"
   license "GPL-2.0-only"
-  version "1.3.2"
+  version "1.3.3"
 
   depends_on "git"
 
@@ -21,6 +21,6 @@ class GitNativeIssue < Formula
 
   test do
     system "#{bin}/git-issue", "version"
-    assert_match "1.3.2", shell_output("#{bin}/git-issue version")
+    assert_match "1.3.3", shell_output("#{bin}/git-issue version")
   end
 end
